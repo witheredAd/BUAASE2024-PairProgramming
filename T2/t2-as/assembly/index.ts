@@ -33,7 +33,7 @@ export function mancalaResult(flag: i32, seq: i32[], size: i32): i32 {
     return 15000 + 
       board.hole[board.scoreHole(flag)] - board.hole[board.scoreHole(board.opStatus(flag))]
   } 
-    
+  
   return 20000 + 
     board.hole[board.scoreHole(flag)]
 }
