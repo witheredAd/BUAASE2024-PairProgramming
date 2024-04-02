@@ -33,7 +33,9 @@ export function mancalaBoard(flag: i32, seq: i32[], size: i32): i32[] {
 
     isEnd = board.isEnd()
   }
-
+  if(isEnd){
+    board.clear()
+  }
   if(flag_ == 1){
     if(flag == 1){
       return addEle(board.hole, 200 + 2 * board.hole[board.scoreHole(1)] - 48)
@@ -126,6 +128,20 @@ class Board {
       return 2
     }
     return 3
+  }
+  clear(): void{
+    var sum1: i32
+    var sum2: i32
+
+    sum1 = sum2 = 0
+    for(let i:i32 = 1;i <= 6;i++){
+      sum1 += this.hole[this.getPosFromInfo(1, i)]
+      this.hole[this.getPosFromInfo(1, i)] = 0
+      sum2 += this.hole[this.getPosFromInfo(2, i)]
+      this.hole[this.getPosFromInfo(2, i)] = 0
+    }
+    this.hole[this.scoreHole(1)] += sum1
+    this.hole[this.scoreHole(2)] += sum2
   }
 
   getOppositeHole(pos: i32): i32 {

@@ -207,7 +207,7 @@ class Board {
     }
     return 3
   }
-  clear(){
+  clear(): void{
     var sum1: i32
     var sum2: i32
 
