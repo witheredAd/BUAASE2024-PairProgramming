@@ -67,28 +67,30 @@ export function mancalaOperator(flag: i32, status: i32[]): i32 {
   const board = new Board()
   board.hole = status
 
-
   const legal_actions = board.getHoleNotEmpty(flag)
   
   let award_infos: AwardInfo[] = []
   for (let i = 0; i < legal_actions.length; i ++) {
     const cloned_board = board.clone()
-    cloned_board.seed(flag, legal_actions[i])
-    new AwardInfo (
+    const next_play = cloned_board.seed(flag, legal_actions[i])
+    award_infos.push(new AwardInfo (
       legal_actions[i],
-      minimax(cloned_board, flag, flag, -100, 100, 2)
-    )
+      minimax(cloned_board, flag, next_play, -100, 100, 4)
+    ))
   }
-  award_infos = award_infos.sort((a, b) => i32((a.award - b.award) * 100))
+  award_infos = award_infos.sort((a, b) => i32((b.award - a.award) * 10000))
+  // console.log(`${award_infos.map<string>((e: AwardInfo)=>`${e.offset}: ${e.award}`)}`)
 
   const max_awards:AwardInfo[] = []
-  for (let i = 0; i < legal_actions.length; i++) {
+  for (let i = 0; i < award_infos.length; i++) {
     if (Math.abs(award_infos[i].award - award_infos[0].award) < 1e-9) {
       max_awards.push(award_infos[i])
     }
   }
 
-  const choice = i32(Math.random() * max_awards.length)
+  const r = Math.random()
+  const choice = i32(r * max_awards.length)
+  // console.log(`${max_awards.length}, ${r}, ${choice}`)
   return flag * 10 + max_awards[choice].offset
 }
 
